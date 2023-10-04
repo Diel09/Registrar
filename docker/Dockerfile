@@ -1,8 +1,8 @@
 FROM php:7.4-fpm
 
-RUN sed -i 's/9000/9400/' /usr/local/etc/php-fpm.d/zz-docker.conf
+RUN sed -i 's/9000/9500/' /usr/local/etc/php-fpm.d/zz-docker.conf
 
-WORKDIR /var/www/laravel
+WORKDIR /var/www/registrar
 
 ENV TZ=Asia/Manila
 
@@ -24,7 +24,7 @@ RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www/laravel
+COPY --chown=www:www . /var/www/registrar
 
 # Change current user to www
 USER www
