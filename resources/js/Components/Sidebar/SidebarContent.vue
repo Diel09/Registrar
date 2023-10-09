@@ -1,7 +1,8 @@
 <script setup>
 import PerfectScrollbar from '@/Components/PerfectScrollbar.vue'
 import SidebarLink from '@/Components/Sidebar/SidebarLink.vue'
-import { DashboardIcon } from '@/Components/Icons/outline'
+import { Request } from '@/Components/Icons/outline'
+import { Requests } from '@/Components/Icons/outline'
 import SidebarCollapsible from '@/Components/Sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/Components/Sidebar/SidebarCollapsibleItem.vue'
 import { TemplateIcon } from '@heroicons/vue/outline'
@@ -13,7 +14,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         aria-label="main"
         class="relative flex flex-col flex-1 max-h-full gap-4 px-3"
     >
-        <SidebarLink
+        <!-- <SidebarLink
             title="Dashboard"
             :href="route('dashboard')"
             :active="route().current('dashboard')"
@@ -24,20 +25,34 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                     aria-hidden="true"
                 />
             </template>
-        </SidebarLink>
+        </SidebarLink>> -->
 
         <SidebarLink
             title="Request Form"
-            :href="route('components.buttons')"
-            :active="route().current('components.buttons')"
+            :href="route('request.form')"
+            :active="route().current('request.form')"
         >
             <template #icon>
-                <DashboardIcon
+                <Request
                     class="flex-shrink-0 w-6 h-6"
                     aria-hidden="true"
                 />
             </template>
         </SidebarLink>
+
+        <SidebarLink
+            title="Requests"
+            :href="route('requests.form')"
+            :active="route().current('requests.form')"
+        >
+            <template #icon>
+                <Requests
+                    class="flex-shrink-0 w-6 h-6"
+                    aria-hidden="true"
+                />
+            </template>
+        </SidebarLink>
+
 
         <!-- <SidebarCollapsible
             title="Components"

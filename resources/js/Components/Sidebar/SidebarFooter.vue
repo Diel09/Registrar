@@ -5,7 +5,7 @@ import { sidebarState } from '@/Composables'
 </script>
 
 <template>
-    <div class="flex-shrink-0 px-3 lg:hidden">
+    <div class="z-0 ... flex-shrink-0 px-3 lg:hidden">
         <Button
             iconOnly
             variant="secondary"

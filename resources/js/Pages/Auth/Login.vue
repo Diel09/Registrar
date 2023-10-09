@@ -81,6 +81,13 @@ const submit = () => {
                     </Button>
                 </div>
 
+                <div>
+                    <!-- <Button class="justify-center gap-2 w-full" :disabled="form.processing" v-slot="{iconSizeClasses}">
+                        <LoginIcon aria-hidden="true" :class="iconSizeClasses" />
+                        <span>registrar</span>
+                    </Button> -->
+                </div>
+
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     Don't have an account?
                     <Link :href="route('register')" class="text-blue-500 hover:underline">

@@ -17,17 +17,26 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect('login');
 });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/request-form', function () {
+    return Inertia::render('Client/Request');
+})->middleware(['auth', 'verified'])->name('request.form');
+
+Route::get('/requests-form', function () {
+    return Inertia::render('Client/Requests');
+})->middleware(['auth', 'verified'])->name('requests.form');
+
+Route::get('/registrar', function () {
+    return Inertia::render('Registrar/TobeApprove');
+})->name('registrar');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,9 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/components/buttons', function () {
-    return Inertia::render('Components/Buttons');
-})->middleware(['auth', 'verified'])->name('components.buttons');
 
 
 require __DIR__ . '/auth.php';

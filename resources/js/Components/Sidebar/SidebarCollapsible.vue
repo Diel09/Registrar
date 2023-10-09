@@ -38,7 +38,7 @@ const leave = (el) => {
 </script>
 
 <template>
-    <div class="relative">
+    <div class="relative ">
         <SidebarLink @click="isOpen = !isOpen" :title="title" :active="active">
             <template #icon>
                 <slot name="icon">
