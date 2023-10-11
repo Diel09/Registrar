@@ -12,7 +12,7 @@ import { HeartIcon } from '@heroicons/vue/solid'
             @ 2022 MMSU Students Portal v2.3.3
         </p>
         <p>
-            All rights reserve   
+            All rights reserved   
         </p>
     </div>
     <div class="flex items-end justify-end text-white text-sm w-full flex space-x-4">

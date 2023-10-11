@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue'
-import Search from  '@/Components/Search.vue'
+import Filter from  '@/Components/Filter.vue'
+import Search from '@/Components/Search.vue'
 import Button from  '@/Components/Button.vue'
 import { EmptyCircleIcon } from '@/Components/Icons/outline'
 import { GithubIcon } from '@/Components/Icons/brands'
@@ -13,7 +14,9 @@ import { GithubIcon } from '@/Components/Icons/brands'
                 <h2 class="text-xl font-semibold leading-tight">
                     Requests
                 </h2>
-                <Search/>
+            <div class="flex justify-end items-center">
+                <Filter/><Search/>
+            </div>
             </div>
         </template>
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">

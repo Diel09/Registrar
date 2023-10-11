@@ -69,9 +69,9 @@ const submit = () => {
                         <span class="ml-2 text-sm text-gray-600">Remember me</span>
                     </label>
 
-                    <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-blue-500 hover:underline">
+                    <!-- <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-blue-500 hover:underline">
                         Forgot your password?
-                    </Link>
+                    </Link> -->
                 </div>
 
                 <div>
@@ -81,19 +81,19 @@ const submit = () => {
                     </Button>
                 </div>
 
-                <div>
-                    <!-- <Button class="justify-center gap-2 w-full" :disabled="form.processing" v-slot="{iconSizeClasses}">
+                <!-- <div>
+                    <Button class="justify-center gap-2 w-full" :disabled="form.processing" v-slot="{iconSizeClasses}">
                         <LoginIcon aria-hidden="true" :class="iconSizeClasses" />
                         <span>registrar</span>
-                    </Button> -->
-                </div>
+                    </Button>
+                </div> -->
 
-                <p class="text-sm text-gray-600 dark:text-gray-400">
+                <!-- <p class="text-sm text-gray-600 dark:text-gray-400">
                     Don't have an account?
                     <Link :href="route('register')" class="text-blue-500 hover:underline">
                         Register
                     </Link>
-                </p>
+                </p> -->
             </div>
         </form>
     </GuestLayout>

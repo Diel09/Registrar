@@ -32,9 +32,21 @@ Route::get('/requests-form', function () {
     return Inertia::render('Client/Requests');
 })->middleware(['auth', 'verified'])->name('requests.form');
 
+Route::get('/dashboards', function () {
+    return Inertia::render('Registrar/Dashboard');
+})->name('dashboards');
+
 Route::get('/registrar', function () {
     return Inertia::render('Registrar/TobeApprove');
 })->name('registrar');
+
+Route::get('/request-registrar', function () {
+    return Inertia::render('Registrar/Request');
+})->name('request');
+
+Route::get('/document', function () {
+    return Inertia::render('Registrar/Document');
+})->name('document');
 
 
 
