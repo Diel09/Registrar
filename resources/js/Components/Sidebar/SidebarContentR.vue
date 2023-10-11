@@ -15,6 +15,20 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         aria-label="main"
         class="relative flex flex-col flex-1 max-h-full gap-4 px-3"
     >
+    
+    <SidebarLink
+            title="Dashboard"
+            :href="route('request.form')"
+            :active="route().current('request.form')"
+        >
+            <template #icon>
+                <Request
+                    class="flex-shrink-0 w-6 h-6"
+                    aria-hidden="true"
+                />
+            </template>
+        </SidebarLink>
+        
         <SidebarLink
             title="To be Approve"
             :href="route('request.form')"
@@ -35,6 +49,19 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         >
             <template #icon>
                 <Requests
+                    class="flex-shrink-0 w-6 h-6"
+                    aria-hidden="true"
+                />
+            </template>
+        </SidebarLink>
+
+        <SidebarLink
+            title="Documents"
+            :href="route('documents')"
+            :active="route().current('documents')"
+        >
+            <template #icon>
+                <Request
                     class="flex-shrink-0 w-6 h-6"
                     aria-hidden="true"
                 />

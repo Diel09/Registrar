@@ -36,6 +36,10 @@ Route::get('/registrar', function () {
     return Inertia::render('Registrar/TobeApprove');
 })->name('registrar');
 
+Route::get('/documents', function () {
+    return Inertia::render('Registrar/Documents');
+})->name('documents');
+
 
 
 Route::middleware('auth')->group(function () {
