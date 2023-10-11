@@ -20,16 +20,16 @@ onMounted(() => {
         required
         placeholder=" "
         :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
-            <tr>
-                <th scope="col" class="px-6 py-3 ">
-                    Document Requested
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    No. of Copies
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Amount
-                </th>
-            </tr>
+        <tr>
+            <th scope="col" class="px-6 py-3 ">
+                Document Requested
+            </th>
+            <th scope="col" class="px-6 py-3">
+                No. of Copies
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Amount
+            </th>
+        </tr>
     </thead>
 </template> 
