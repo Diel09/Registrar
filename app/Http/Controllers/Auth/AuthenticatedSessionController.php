@@ -33,9 +33,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        // dd($request->all());
+        // $request->authenticate();
+        if(Auth::attempt(['student_number' => $request->email, 'password' => $request->password], $request->get('remember'))){
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
+
+            return redirect('request-form');
+        }
+        //registrar
+        if(Auth::guard('registrar')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))){
+            $request->session()->regenerate();
+
+            return redirect('dashboards');
+        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -49,6 +60,7 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
+        Auth::guard('registrar')->logout();
 
         $request->session()->invalidate();
 

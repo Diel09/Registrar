@@ -2,17 +2,8 @@
 import { onMounted, onUnmounted } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import { useFullscreen } from '@vueuse/core'
-import {
-    SunIcon,
-    MoonIcon,
-    SearchIcon,
-    MenuIcon,
-    XIcon,
-    ArrowsExpandIcon,
-} from '@heroicons/vue/outline'
-import {
-    handleScroll,
-    isDark,
+import {SunIcon, MoonIcon, SearchIcon, MenuIcon, XIcon, ArrowsExpandIcon, } from '@heroicons/vue/outline'
+import {handleScroll,isDark,
     scrolling,
     toggleDarkMode,
     sidebarState,
@@ -28,6 +19,10 @@ const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 onMounted(() => {
     document.addEventListener('scroll', handleScroll)
 })
+
+// defineProps({
+//     "name": String
+// })
 
 onUnmounted(() => {
     document.removeEventListener('scroll', handleScroll)
@@ -122,7 +117,7 @@ onUnmounted(() => {
                             type="button"
                             class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none focus:ring focus:ring-mmsu-g focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark-eval-1 dark:bg-dark-eval-1 dark:text-gray-400 dark:hover:text-gray-200"
                         >
-                            {{ $page.props.auth.user.student_number }}
+                            {{ this.$attrs.username }}
 
                             <svg
                                 class="ml-2 -mr-0.5 h-4 w-4"
@@ -184,7 +179,7 @@ onUnmounted(() => {
             
         </Button>
 
-        <Link :href="route('request-form')">
+        <Link :href="route('dashboards')">
             <ApplicationLogo class="w-10 h-10" />
             <span class="sr-only">K UI</span>
         </Link>

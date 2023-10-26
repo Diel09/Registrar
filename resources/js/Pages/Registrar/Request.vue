@@ -6,13 +6,17 @@ import Search from '@/Components/Search.vue'
 
 
 import { GithubIcon } from '@/Components/Icons/brands'
+defineProps({
+    'title': String,
+    'name': String
+})
 </script>
 
 <template>
-    <Registrar title="Registrar">
+    <Registrar title="Registrar" :username="name">
         <template #header>
-            <div class="flex justify-end items-center">
-                <Filter/><Search/>
+            <div class="flex justify-end items-center space-x-1">
+                <Filter class=""/><Search/>
             </div>
         </template>
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 grid grid-cols-2">

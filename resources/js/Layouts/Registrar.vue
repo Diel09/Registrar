@@ -1,12 +1,12 @@
 <script setup>
 import { Head } from '@inertiajs/inertia-vue3'
 import Sidebar from '@/Components/Sidebar/SidebarRegistrar.vue'
-import Navbar from '@/Components/Navbar.vue'
+import Navbar from '@/Components/NavbarRegistrar.vue'
 import PageFooter from '@/Components/PageFooter.vue'
 import { sidebarState } from '@/Composables'
 
 defineProps({
-    title: String
+    title: String,
 })
 </script>
 
@@ -30,7 +30,7 @@ defineProps({
             ]"
         >
             <!-- Navbar -->
-            <Navbar />
+            <Navbar :username="this.$attrs.username"/>
 
             <!-- Page Heading -->
             <header v-if="$slots.header">
@@ -44,7 +44,9 @@ defineProps({
                 <slot />
             </main>
 
-            <PageFooter />
+                <PageFooter/>
+
+            
         </div>
     </div>
 </template>

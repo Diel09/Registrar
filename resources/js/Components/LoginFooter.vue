@@ -10,7 +10,7 @@ import { HeartIcon } from '@heroicons/vue/solid'
                 Developed by Information Technology Center
             </p>
             <p class="font-bold">
-                @ 2022 MMSU Students Portal v2.3.3
+                @ 2023 Online Registrar Request System v1.0.0
             </p>
             <p>
                 All rights reserve   

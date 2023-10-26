@@ -15,7 +15,7 @@ import { GithubIcon } from '@/Components/Icons/brands'
         </template>
 
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-            dituy dashboard
+            dashboard
         </div>
     </AuthenticatedLayout>
 </template>

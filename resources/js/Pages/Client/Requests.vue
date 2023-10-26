@@ -14,7 +14,7 @@ import { GithubIcon } from '@/Components/Icons/brands'
                 <h2 class="text-xl font-semibold leading-tight">
                     Requests
                 </h2>
-            <div class="flex justify-end items-center">
+            <div class="flex justify-end items-center space-x-1">
                 <Filter/><Search/>
             </div>
             </div>

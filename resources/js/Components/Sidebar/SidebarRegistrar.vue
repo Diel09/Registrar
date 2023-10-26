@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import { sidebarState } from '@/Composables'
-import SidebarHeader from '@/Components/Sidebar/SidebarHeader.vue'
+import SidebarHeader from '@/Components/Sidebar/SidebarHeaderR.vue'
 import SidebarContent from '@/Components/Sidebar/SidebarContentR.vue'
 import SidebarFooter from '@/Components/Sidebar/SidebarFooter.vue'
 

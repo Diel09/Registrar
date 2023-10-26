@@ -38,7 +38,11 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'client',
+        ],
+        'registrar' => [
+            'driver' => 'session',
+            'provider' => 'registrar',
         ],
     ],
 
@@ -60,10 +64,15 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'client' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Client::class,
         ],
+        'registrar' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Registrar::class,
+        ],
+        
 
         // 'users' => [
         //     'driver' => 'database',
@@ -93,6 +102,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],  
     ],
 
     /*

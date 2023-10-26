@@ -30,8 +30,8 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         
         <SidebarLink
             title="Request Form"
-            :href="route('request.form')"
-            :active="route().current('request.form')"
+            :href="route('request-form')"
+            :active="route().current('request-form')"
         >
             <template #icon>
                 <Request

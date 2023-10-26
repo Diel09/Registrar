@@ -30,7 +30,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         </SidebarLink>
 
         <SidebarLink
-            title="To be Approve"
+            title="For Approval"
             :href="route('registrar')"
             :active="route().current('registrar')"
         >

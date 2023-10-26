@@ -4,6 +4,10 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ClientController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,20 +28,24 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/request-form', function () {
-    return Inertia::render('Client/Request');
-})->middleware(['auth', 'verified'])->name('request.form');
+Route::get('/request-form', [ClientController::class, 'index'])->middleware(['auth', 'verified'])->name('request-form');
 
 Route::get('/requests-form', function () {
     return Inertia::render('Client/Requests');
 })->middleware(['auth', 'verified'])->name('requests.form');
 
 Route::get('/dashboards', function () {
-    return Inertia::render('Registrar/Dashboard');
+    $name = Auth::guard('registrar')->user()->name;
+    return Inertia::render('Registrar/Dashboard', [
+        "name" => $name
+    ]);
 })->name('dashboards');
 
 Route::get('/registrar', function () {
-    return Inertia::render('Registrar/TobeApprove');
+    $name = Auth::guard('registrar')->user()->name;
+    return Inertia::render('Registrar/TobeApprove', [
+        "name" => $name
+    ]);
 })->name('registrar');
 
 Route::get('/documents', function () {
@@ -45,13 +53,18 @@ Route::get('/documents', function () {
 })->name('documents');
 
 Route::get('/request-registrar', function () {
-    return Inertia::render('Registrar/Request');
+    $name = Auth::guard('registrar')->user()->name;
+    return Inertia::render('Registrar/Request', [
+        "name" => $name
+    ]);
 })->name('request');
 
 Route::get('/document', function () {
-    return Inertia::render('Registrar/Document');
+    $name = Auth::guard('registrar')->user()->name;
+    return Inertia::render('Registrar/Document', [
+        "name" => $name
+    ]);
 })->name('document');
-
 
 
 Route::middleware('auth')->group(function () {
@@ -60,6 +73,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Route::get("list", [ClientController::class,'list']);
+// Route::post('/save',[DocumentTypeController::class,'create']);
+// Route::get('/faqlist',[DocumentController::class, 'table']);
+// Route::get('/posts', [PostController::class, 'index']);
+
+Route::get('/posts', [PostController::class, 'index']);
+
+
+
+Route::post('/upload-data', [DocumentController::class,'upload'])->name('data.upload');
+Route::get('/getDocTypes', [DocumentController::class, 'getAllDocTypes']);
+Route::delete('/Delete/{id}', [DocumentController::class, 'destroy']);
+Route::get('/get-product/{id}', [DocumentController::class, 'studno']);
+Route::get('/getStudno', [DocumentController::class, 'getClient']);
+Route::get('/submit', [RequestController::class, 'submit'])->name('data.submit');
 
 
 require __DIR__ . '/auth.php';

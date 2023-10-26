@@ -44,12 +44,12 @@ const submit = () => {
                     </Link>
                 </div>
                 <div class="space-y-2">
-                    <Label for="email" value="Email" />
+                    <Label for="email" value="Username" />
                     <InputIconWrapper>
                         <template #icon>
                             <MailIcon aria-hidden="true" class="w-5 h-5" />
                         </template>
-                        <Input withIcon id="email" type="email" class="block w-full" placeholder="Email" v-model="form.email" required autofocus autocomplete="username" />
+                        <Input withIcon id="email" type="text" class="block w-full" placeholder="Username" v-model="form.email" required autofocus autocomplete="username" />
                     </InputIconWrapper>
                 </div>
 
@@ -72,6 +72,9 @@ const submit = () => {
                     <!-- <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-blue-500 hover:underline">
                         Forgot your password?
                     </Link> -->
+                </div>
+                <div>
+                    <span class="ml-2 text-sm text-gray-600">For <b>Student:</b> Use your student credentials</span>
                 </div>
 
                 <div>
