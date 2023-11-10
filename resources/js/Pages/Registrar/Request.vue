@@ -4,8 +4,6 @@ import Filter from '@/Components/Filter.vue'
 import Status from '@/Components/Status.vue'
 import Search from '@/Components/Search.vue'
 
-
-import { GithubIcon } from '@/Components/Icons/brands'
 defineProps({
     'title': String,
     'name': String

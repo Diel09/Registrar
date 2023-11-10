@@ -19,10 +19,11 @@ class ClientController extends Controller
     }
 
     public function index(){
-        $data = Client::select('sresu.student_number', 'degrees.degree', 'degrees.abbr', 'student_info.firstname', 'student_info.middlename', 'student_info.surname', 'student_info.email')
+        $data = Client::select('sresu.student_number', 'degrees.degree', 'degrees.abbr', 'student_info.firstname', 'student_info.middlename', 'student_info.surname', 'student_info.email', 'student_records.college_id')
             ->where('sresu.student_number', Auth::user()->student_number)
             ->join('student_info', 'student_info.student_number', 'sresu.student_number')
             ->join('degrees', 'student_info.degree_id', 'degrees.id')
+            ->join('student_records', 'student_records.student_id', 'student_info.student_id')
             ->first();
         return Inertia::render('Client/Request', [
             'details' => $data

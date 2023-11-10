@@ -149,11 +149,7 @@ onUnmounted(() => {
                     >
                         Log Out
                     </DropdownLink>
-                    <DropdownLink
-                        :href="route('registrar')"
-                    >
-                    Registrar
-                    </DropdownLink>
+                    
                 </template>
             </Dropdown>
         </div>

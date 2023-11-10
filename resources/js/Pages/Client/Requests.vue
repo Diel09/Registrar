@@ -2,9 +2,6 @@
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import Filter from  '@/Components/Filter.vue'
 import Search from '@/Components/Search.vue'
-import Button from  '@/Components/Button.vue'
-import { EmptyCircleIcon } from '@/Components/Icons/outline'
-import { GithubIcon } from '@/Components/Icons/brands'
 </script>
 
 <template>
@@ -20,12 +17,6 @@ import { GithubIcon } from '@/Components/Icons/brands'
             </div>
         </template>
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-            <div>Reference Number:</div>
-            <div>Document Type:</div> 
-            <div>No. of Copies:</div>
-            <div>Status:</div>
-        </div>
-        <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-2">
             <div>Reference Number:</div>
             <div>Document Type:</div> 
             <div>No. of Copies:</div>

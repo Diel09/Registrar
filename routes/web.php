@@ -80,14 +80,16 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/posts', [PostController::class, 'index']);
 
-
+Route::post('/submit', [RequestController::class, 'submit'])->name('data.submit');
+Route::post('/save-data',[RequestController::class, 'saveData'])->name('data.save');
 
 Route::post('/upload-data', [DocumentController::class,'upload'])->name('data.upload');
 Route::get('/getDocTypes', [DocumentController::class, 'getAllDocTypes']);
 Route::delete('/Delete/{id}', [DocumentController::class, 'destroy']);
 Route::get('/get-product/{id}', [DocumentController::class, 'studno']);
 Route::get('/getStudno', [DocumentController::class, 'getClient']);
-Route::get('/submit', [RequestController::class, 'submit'])->name('data.submit');
+Route::get('/getRequest', [RequestController::class, 'getAllRequest']);
+
 
 
 require __DIR__ . '/auth.php';
