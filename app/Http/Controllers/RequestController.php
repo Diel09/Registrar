@@ -10,38 +10,36 @@ class RequestController extends Controller
 {
     public function submit(Request $request)
     {
-        $student_no = $request->input('stud_no');
-        $alumni = $request->input('alumni_id');
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $degree = $request->input('degree');
-        $college = $request->input('college');
-        $contact = $request->input('cont_no');
-        $total = $request->input('total_amount');
-        $status = $request->input('req_status');
-        $reference = $request->input('reference_no');
-        $or = $request->input('OR_no');
-        $remarks = $request->input('remarks');
+        $amount = 0;
+        foreach($request->documents as $doc) {
+            $amount += $doc['price'];
+        }
 
-        $request = new Request_Details();
-        $request->stud_no = $student_no;
-        $request->alumni_id = $alumni;
-        $request->name = $name;
-        $request->email = $email;
-        $request->degree = $degree;
-        $request->college = $college;
-        $request->cont_no = $contact;
-        $request->total_amount = $total;
-        $request->req_status = $status;
-        $request->reference_no = $reference;
-        $request->OR_no = $or;
-        $request->remarks = $remarks;
+        $req = new Request_Details();
+        $req->stud_no = $request->details['studno'];
+        $req->alumni_id = $request->details['studno'];
+        $req->name = $request->details['name'];
+        $req->email = $request->details['email'];
+        $req->degree = $request->details['degree'];
+        $req->college = $request->details['college'];
+        $req->cont_no = $request->details['contact'];
+        $req->total_amount = $amount;
+        $req->remarks = $request->details['remarks'];
 
         // Save the document to the database
-        $request->save();
+        $req->save();
 
+        foreach($request->documents as $document) {
+            $doc = new DocumentRequest();
+            $doc->req_id = $req->id;
+            $doc->doctype_id = $document['id'];
+            $doc->copies = $document['copies'];
+            $doc->price = $document['price'];
+            $doc->save();
+        }
+        
         // Process the text data as needed
-        return 1;
+        return 'success';
     }
     public function getAllRequest(){
         $data = Request_Details::all();

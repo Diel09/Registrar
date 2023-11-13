@@ -81,7 +81,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/posts', [PostController::class, 'index']);
 
 Route::post('/submit', [RequestController::class, 'submit'])->name('data.submit');
-Route::post('/save-data',[RequestController::class, 'saveData'])->name('data.save');
+// Route::post('/save-data',[RequestController::class, 'saveData'])->name('data.save');
 
 Route::post('/upload-data', [DocumentController::class,'upload'])->name('data.upload');
 Route::get('/getDocTypes', [DocumentController::class, 'getAllDocTypes']);
