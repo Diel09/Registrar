@@ -89,6 +89,8 @@ Route::delete('/Delete/{id}', [DocumentController::class, 'destroy']);
 Route::get('/get-product/{id}', [DocumentController::class, 'studno']);
 Route::get('/getStudno', [DocumentController::class, 'getClient']);
 Route::get('/getRequest', [RequestController::class, 'getAllRequest']);
+Route::post('/deleteDocs',[DocumentController::class, 'deleteDocs']);
+Route::get('/getDocRequest', [RequestController::class, 'getAllRequest']);
 Route::get('/get-Request', [RequestController::class, 'getRequest']);
 Route::get('/get-Timestamp', [RequestController::class, 'getTimestamp']);
 

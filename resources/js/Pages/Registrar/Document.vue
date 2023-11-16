@@ -29,21 +29,21 @@ defineProps({
     'name': String,
 });
 
-
-const item = ref({ id: 1 });
-
-const deleteItem = (id) => {
-  axios
-    .delete(`/api/items/${id}`)
-    .then((response) => {
-      console.log(response.data.message);
-      // Handle any other UI updates if needed
-    })
-    .catch((error) => {
-      console.error('Error deleting item:', error);
-      // Handle error and show a message to the user
-    });
-};
+const deleteDocs = (id) => {
+            if(confirm('Are you sure?')){
+                axios.post('/deleteDocs',{id}).then(({data})=>{
+                    if(data){
+                        alert('success');
+                        this.$emit('success');
+                        this.initialData();
+                    }else{
+                        alert('error');
+                    }
+                })
+            }else{
+                alert('Cancelled')
+            }
+        };
 
 </script>
 
@@ -51,7 +51,7 @@ const deleteItem = (id) => {
 <template>
     <Registrar title="Registrar" :username="name">
         <template #header>
-            <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 grid grid-cols-1 md:grid grid-cols-2">
+            <div class="grid grid-cols-2 p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 md:grid">
                 <div class="flex items-center font-semibold">
                     Documents
                 </div>
@@ -67,8 +67,8 @@ const deleteItem = (id) => {
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
-                            <table class="min-w-full text-center text-sm font-light">
-                                <thead class="border-b font-medium dark:border-neutral-500">
+                            <table class="min-w-full text-sm font-light text-center">
+                                <thead class="font-medium border-b dark:border-neutral-500">
                                     <tr>
                                         <th scope="col" class="px-3 py-4">Document Types</th>
                                         <th scope="col" class="px-3 py-4">Price</th>
@@ -84,8 +84,9 @@ const deleteItem = (id) => {
                                             {{item.price}}
                                         </td>
                                         <td class="px-3 py-4">
-                                            <button type="button" class="text-white bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-600 dark:focus:ring-blue-500 dark:border-gray-700">Edit</button>
-                                            <button type="button" @click="deleteItem(item.id)" class="text-white bg-red-800 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-600 dark:focus:ring-red-500 dark:border-gray-700">Delete</button>
+                                            
+                                            <button type="button" @click="editDocs" class="text-white bg-green-800 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-800 dark:hover:bg-blue-600 dark:focus:ring-blue-500 dark:border-gray-700">Edit</button>
+                                            <button type="button" @click="deleteDocs(item.id)" class="text-white bg-red-800 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-4 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-600 dark:focus:ring-red-500 dark:border-gray-700">Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>

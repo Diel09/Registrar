@@ -32,15 +32,14 @@ class DocumentController extends Controller
         return response()->json($data);
     }
     
-    public function destroy($id)
-    {
-        $item = DocumentType::find($id);
-        if (!$item) {
-            return response()->json(['message' => 'Document not found'], 404);
-        }
-        $item->delete();
-        return response()->json(['message' => 'Document deleted successfully']);
-    }
+
+    public function deleteDocs(Request $request){
+        $res= DocumentType::where('id', $request->id)->delete();
+
+        return 1;
+       //  $list = $this->table();
+       //  return $list;
+   }
 
     
 }
