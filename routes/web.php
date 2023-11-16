@@ -3,7 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\ProfileController;
+// use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ClientController;
@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
 // Route::get('/faqlist',[DocumentController::class, 'table']);
 // Route::get('/posts', [PostController::class, 'index']);
 
-Route::get('/posts', [PostController::class, 'index']);
+// Route::get('/posts', [PostController::class, 'index']);
 
 Route::post('/submit', [RequestController::class, 'submit'])->name('data.submit');
 // Route::post('/save-data',[RequestController::class, 'saveData'])->name('data.save');
@@ -89,7 +89,9 @@ Route::delete('/Delete/{id}', [DocumentController::class, 'destroy']);
 Route::get('/get-product/{id}', [DocumentController::class, 'studno']);
 Route::get('/getStudno', [DocumentController::class, 'getClient']);
 Route::get('/getRequest', [RequestController::class, 'getAllRequest']);
+Route::get('/get-Request', [RequestController::class, 'getRequest']);
+Route::get('/get-Timestamp', [RequestController::class, 'getTimestamp']);
 
-
+Route::get('/filter/{filters}/{student}', [RequestController::class, 'filter'])->name('filter');
 
 require __DIR__ . '/auth.php';

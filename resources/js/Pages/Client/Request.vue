@@ -24,14 +24,18 @@ export default {
                 email: this.details.email,
                 college: this.details.college_id
             },
-            select:{
-                copies: null,
-            },
+            // select:{
+            //     copies: null,
+            // },
             textType: 'text',
             input: null,
             docTypes: [],
             selectedDocuments: [],
-            selects: { name: null, value: null },
+            selects: { 
+                name: null, 
+                copies: null,
+                purpose: null
+             },
         }
     }, 
     props: {
@@ -67,23 +71,26 @@ export default {
             });
         },
         addDoc() {
-            if (this.selects.name) { //This will check if there is selected document
+            if (this.selects.name && this.selects.copies) { //This will check if there is selected document
                 
                 const selectedDocument = this.docTypes.find(item => item.name === this.selects.name); // It will find the selected document in docTypes
 
                 this.selectedDocuments.push({
                     id: selectedDocument.id,
                     document: this.selects.name,
-                    copies: this.selects.value,
-                    price: selectedDocument.price * this.selects.value,
+                    copies: this.selects.copies,
+                    price: selectedDocument.price * this.selects.copies,
+                    purpose: this.selects.purpose,
                 });
-                this.selects[0].name = null;
-                this.selects[0].value = null;
+                this.selects.name = null;
+                this.selects.copies = null;
+                this.selects.purpose = null;
             }
         },
         removeSelectedDocument(index) {
             this.selectedDocuments.splice(index, 1);
         },
+        
     },
     mounted() {
         this.input = this.$refs.input;
@@ -102,7 +109,7 @@ export default {
         <template #header>
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <h2 class="text-xl font-semibold leading-tight">
-                    Request Form
+                    Request Forms
                 </h2>
             </div>         
         </template>
@@ -112,7 +119,6 @@ export default {
                     <div class="mt-3">
                         <InputForm :type="'date'" :label="'Date'" class="mt-1 block w-full" v-model="form.date" autocomplete="username" />
                     </div>
-                    
                 </div>
                 <div class="grid md:grid-cols-3 md:gap-6 ">
                     <div class="mt-3">
@@ -124,7 +130,6 @@ export default {
                     <div class="mt-3">
                         <InputForm :type="textType" :label="'Name(Last, First, Middle)'" class="mt-1 block w-full" v-model="form.name" autocomplete="username" />
                     </div>
-                    
                 </div>
                 <div class="grid md:grid-cols-3 md:gap-6">
                     <div class="mt-3">
@@ -139,76 +144,77 @@ export default {
                 </div>
             </div>
             <div class="flex justify-end items-center ">
-                <button type="submit" @click="saveData" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5">Submit</button>
+                <button type="submit" @click="saveData" class="focus:outline-none text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-5">Submit</button>
             </div> 
         </form>
-        <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-4 z-40 ...relative overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+
+        <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-0  ">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                 <tbody class="z-0 text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-white" :type="type" required placeholder=" " :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
-                    <tr class="">
-                        <th scope="col" class=" py-3 ml-4" >
-                            <div class="flex items-center ml-2">
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                            <select id="documents" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.name" required>
-                                <option disabled select>Choose</option>
-                                <option v-for="doc in docTypes" :key="doc.id" :value="doc.name" >{{ doc.name }}</option>
-                            </select>
+                    <tr class="grid grid-cols-4 max-md:grid-cols-2">
+                        <th scope=" " class="flex py-3" >
+                            <div class="flex items-center ml-1">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                                <select id="documents" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block max-md:w-36 w-80 p-2.5 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.name" required>Choose
+                                    <option disabled select>Choose</option>
+                                    <option v-for="doc in docTypes" :key="doc.id" :value="doc.name" >{{ doc.name }}</option>
+                                </select>
                             </div>
                         </th>
                         <th>
-                            <div>
-                                <input type="number" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-16 p-2.5 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.value" placeholder="0"/>
+                            <div class="flex justify-center">
+                                <input min="1" type="number" class=" mt-3 bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block w-16 p-2.5 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.copies" placeholder="0"/>
                             </div>
                         </th>
-                        <th scope="col" class="px-2 py-3 flex justify-start">
-                            <button @click="addDoc" class="flex justify-center focus:outline-none max-md:w-11 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="#" id="add_more_fields">Add</button>
+                        <th scope="" class=" font-semibold">
+                            <InputForm type="text" :label="'Purpose'" v-model="selects.purpose" class="w-full mt-3 max-md:w-full"/>
                         </th>
-                        <th></th>
-                        
-                        <th>
+                        <th scope="" class="px-2 py-3 flex justify-end">
+                            <button @click="addDoc" class="flex justify-center focus:outline-none max-md:w-11 text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="#" id="add_more_fields">Add</button>
                         </th>
                     </tr>
 
-                    <tr class="mt-5 " >
-                        <th scope="col" class="py-3 mt-5 " >
-                            <div class="ml-2 text-left">Document</div>
+                    <tr class="mt-5 grid grid-cols-4" >
+                        <th scope="" class=" mt-5 text-left" >
+                            <div class="ml-2 ">Document</div>
                         </th >
-                        <th scope="col" class="py-3 mt-5">
-                            <div class="text-center">Purpose</div>
+                        <th scope="" class=" mt-5 text-center">
+                            <div class="">Purpose</div>
                         </th>
-                        <th scope="col" class="py-3 text-center">
+                        <th scope="" class="text-center mt-5">
                             <div>Copies</div>
                         </th>
-                        <th scope="col" class="text-center">
+                        <th scope="" class=" text-left mt-5">
                             <div>Price</div>
                         </th>
                         <th></th>
                     </tr>
 
-                    <tr v-for="(document, index) in selectedDocuments" :key="index">
-                        <th scope="col" class="px-2 py-3 font-semibold">
+                    <tr v-for="(document, index) in selectedDocuments" :key="index" class="mt-5 grid grid-cols-4">
+                        <th scope="col" class="font-semibold text-left">
                             <div>{{ document.document }}</div>
                         </th>
-                        <th scope="col" class=" font-semibold ">
-                            <input type="text" v-mpdel="purpose" class="block py-2.5 text-sm mr-2 text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer w-full max-md:w-16"/>
+                        <th scope="col" class="font-semibold text-center">
+                            <div>{{ document.purpose }}</div>
                         </th>
-                        <th scope="col" class="px-2 py-3 font-semibold text-center">
+                        <th scope="col" class="font-semibold text-center">
                             <div class="">{{ document.copies }}</div>
                         </th>
-                        <th scope="col" class="px-2 py-3 font-semibold text-center">
-                            {{ document.price }}
-                        </th>
-                        <th scope="col">
-                            <button @click="removeSelectedDocument(index)">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 flex justify-start">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            </button>
+                        <th scope="col" class="font-semibold text-center grid grid-cols-2">
+                            <div class="text-left">
+                                {{ document.price }}
+                            </div>
+                            <div class="flex justify-start max-md:flex items-start">
+                                <button @click="removeSelectedDocument(index)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="max-md:w-6 max-md:h-6 w-8 h-8 flex justify-start">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </th>
                     </tr>
                 </tbody>
             </table>
         </div>  
-
     </AuthenticatedLayout>
 </template>
