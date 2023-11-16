@@ -25409,7 +25409,7 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "text-xl font-semibold leading-tight"
 }, " Request Forms ")], -1 /* HOISTED */);
 var _hoisted_2 = {
-  "class": "p-6 mt-0 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1"
+  "class": "p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-0"
 };
 var _hoisted_3 = {
   "class": "grid md:grid-cols-3 md:gap-6 dark:text-white-400"
@@ -25445,15 +25445,99 @@ var _hoisted_13 = {
   "class": "flex justify-end items-center"
 };
 var _hoisted_14 = {
-  "class": "p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-4"
+  "class": "p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-0"
 };
 var _hoisted_15 = {
   "class": "w-full text-sm text-left text-gray-500 dark:text-gray-400"
 };
 var _hoisted_16 = ["type", "value"];
 var _hoisted_17 = {
-  "class": "flex justify-end items-center"
+  "class": "grid grid-cols-4 max-md:grid-cols-2"
 };
+var _hoisted_18 = {
+  scope: " ",
+  "class": "flex py-3"
+};
+var _hoisted_19 = {
+  "class": "flex items-center ml-1"
+};
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+}, null, -1 /* HOISTED */);
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  disabled: "",
+  select: ""
+}, "Choose", -1 /* HOISTED */);
+var _hoisted_22 = ["value"];
+var _hoisted_23 = {
+  "class": "flex justify-center"
+};
+var _hoisted_24 = {
+  scope: "",
+  "class": "font-semibold"
+};
+var _hoisted_25 = {
+  scope: "",
+  "class": "px-2 py-3 flex justify-end"
+};
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+  "class": "mt-5 grid grid-cols-4"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  scope: "",
+  "class": "mt-5 text-left"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "ml-2"
+}, "Document")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  scope: "",
+  "class": "mt-5 text-center"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": ""
+}, "Purpose")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  scope: "",
+  "class": "text-center mt-5"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Copies")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  scope: "",
+  "class": "text-left mt-5"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Price")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th")], -1 /* HOISTED */);
+var _hoisted_27 = {
+  scope: "col",
+  "class": "font-semibold text-left"
+};
+var _hoisted_28 = {
+  scope: "col",
+  "class": "font-semibold text-center"
+};
+var _hoisted_29 = {
+  scope: "col",
+  "class": "font-semibold text-center"
+};
+var _hoisted_30 = {
+  "class": ""
+};
+var _hoisted_31 = {
+  scope: "col",
+  "class": "font-semibold text-center grid grid-cols-2"
+};
+var _hoisted_32 = {
+  "class": "text-left"
+};
+var _hoisted_33 = {
+  "class": "flex justify-start max-md:flex items-start"
+};
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  "stroke-width": "1.5",
+  stroke: "currentColor",
+  "class": "max-md:w-6 max-md:h-6 w-8 h-8 flex justify-start"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+})], -1 /* HOISTED */);
+var _hoisted_36 = [_hoisted_35];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_InputForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("InputForm");
   var _component_AuthenticatedLayout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AuthenticatedLayout");
@@ -25472,7 +25556,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: 'date',
         label: 'Date',
         "class": "mt-1 block w-full",
-        modelValue: $data.selectedDate,
+        modelValue: $data.form.date,
         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return $data.form.date = $event;
         }),
@@ -25480,7 +25564,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputForm, {
         type: $data.textType,
         label: 'Student Number',
-        "class": "block w-full mt-1",
+        "class": "mt-1 block w-full",
         modelValue: $data.form.studno,
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.form.studno = $event;
@@ -25489,7 +25573,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8 /* PROPS */, ["type", "modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputForm, {
         type: $data.textType,
         label: 'Degree',
-        "class": "block w-full mt-1",
+        "class": "mt-1 block w-full",
         modelValue: $data.form.degree,
         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return $data.form.degree = $event;
@@ -25498,7 +25582,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8 /* PROPS */, ["type", "modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputForm, {
         type: $data.textType,
         label: 'Name(Last, First, Middle)',
-        "class": "block w-full mt-1",
+        "class": "mt-1 block w-full",
         modelValue: $data.form.name,
         "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           return $data.form.name = $event;
@@ -25522,16 +25606,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $data.form.contact = $event;
         }),
         autocomplete: "username"
-      }, null, 8 /* PROPS */, ["type", "modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputForm, {
-        type: $data.textType,
-        label: 'Purpose',
-        "class": "mt-1 block w-full",
-        modelValue: $data.form.purpose,
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-          return $data.form.purpose = $event;
-        }),
-        autocomplete: "username"
-      }, null, 8 /* PROPS */, ["type", "modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputForm, {
+      }, null, 8 /* PROPS */, ["type", "modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputForm, {
         type: $data.textType,
         label: 'Remarks',
         "class": "block w-full mt-1",
