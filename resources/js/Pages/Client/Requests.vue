@@ -5,10 +5,14 @@ import { onMounted, ref, watch, useAttrs } from 'vue';
 import axios from 'axios';
 
 const request = ref(null);
-const filter = ref(5);
+const filter = ref(6);
 const attrs = useAttrs();
 const rqst = ref([]);
-const currentRequest = ref(null);
+const docRequest = ref(null);
+const dtls = ref([]);
+const Open = ref(false);
+const showModal = ref(false);
+
 
 const getdocRequest = async () => {
   try {
@@ -23,13 +27,20 @@ const getdocRequest = async () => {
 const changeDocs = (i) => {
     rqst.value.forEach((value, index) => {
         if(index == i) {
-            currentRequest.value = value;
+            docRequest.value = value;
+        }
+    });
+    request.value.forEach((value, index) => {
+        if(index == i) {
+            dtls.value = value;
         }
     });
 }
-
+const closeModal = () => {
+    showModal.value = false;
+}
 watch(filter, (after, before) => {
-    if (after === '5') {
+    if (after === '6') {
         getdocRequest();
     }
     else{
@@ -58,12 +69,14 @@ onMounted(() => {
             <div class="flex justify-end items-center space-x-1">
                 <div class="flex justify-end" >
                     <select v-model="filter" id="countries" class="w-32 h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value="5">Filters</option>
+                        <option value="6">Filters</option>
                         <option value="1">Completed</option>
                         <option value="0">Pending</option>
                         <option value="4">Paid</option>
                         <option value="2">Claimed</option>
                         <option value="3">Rejected</option>
+                        <option value="5">Approved</option>
+                        
                     </select>
                 </div>
                 <Search/>
@@ -117,16 +130,20 @@ onMounted(() => {
                         <td v-if="item.req_status == 4" scope="col" class="px-3 py-3 text-center font-semibold text-black dark:text-white">
                             Paid
                         </td>
+                        <td v-if="item.req_status == 5" scope="col" class="px-3 py-3 text-center font-semibold text-black dark:text-white">
+                            Approved
+                        </td>
                         <td scope="col" class="px-3 py-3 flex justify-center">
                             <div class="flex justify-end items-center" >
                                 <label @click="changeDocs(index)" for="tw-modal"  class="flex justify-center focus:outline-none max-md:w-11 text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     View
                                 </label>
                                 <input type="checkbox" id="tw-modal" class="z-40 peer fixed appearance-none opacity-0">
-                                <label  for="tw-modal" class=" z-40 pointer-events-none invisible fixed inset-0 flex cursor-pointer items-center justify-center overflow-hidden overscroll-contain bg-slate-700/30 opacity-0 transition-all duration-200 ease-in-out peer-checked:pointer-events-auto peer-checked:visible peer-checked:opacity-100 peer-checked:[&>*]:translate-y-0 peer-checked:[&>*]:scale-100 ">
+                                <label for="tw-modal" class=" z-40 pointer-events-none invisible fixed inset-0 flex cursor-pointer items-center justify-center overflow-hidden overscroll-contain bg-slate-700/30 opacity-0 transition-all duration-200 ease-in-out peer-checked:pointer-events-auto peer-checked:visible peer-checked:opacity-100 peer-checked:[&>*]:translate-y-0 peer-checked:[&>*]:scale-100 ">
                                     <div class=" scale-90 overflow-y-auto overscroll-contain bg-white rounded-md p-4 text-black shadow-2xl transition border-2 dark:bg-gray-100">
-                                        <div class="flex justify-end">
-                                            <button class=""> 
+                                        <!-- {{ index }} -->
+                                        <div v-if="ShowModal" class="flex justify-end">
+                                            <button @click="closeModal" class=" bg-black"> 
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="max-md:w-6 max-md:h-6 w-8 h-8 flex justify-start">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
@@ -137,29 +154,29 @@ onMounted(() => {
                                         </div>
                                         <div class="grid grid-cols-3 mt-10">
                                             <div class="text-left">
-                                                Date: {{ item.date }}
+                                                Date: {{ dtls.created_at }}
                                             </div>
                                             <div class="text left">
-                                                Student #: {{ item.stud_no }}
+                                                Student #: {{ dtls.stud_no }}
                                             </div>
                                             <div class="text-left">
-                                                Degree: {{ item.degree }}
+                                                Degree: {{ dtls.degree }}
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-3 mt-5">
                                             <div class="text-left">
-                                                Name: {{ item.name }}
+                                                Name: {{ dtls.name }}
                                             </div>
                                             <div class="text left">
-                                                Email: {{ item.email }}
+                                                Email: {{ dtls.email }}
                                             </div>
                                             <div class="text-left">
-                                                Contact #: {{ item.cont_no }}
+                                                Contact #: {{ dtls.cont_no }}
                                             </div>
                                         </div>
                                         <div class="mt-5">
                                             <div class="text-left">
-                                                Remarks: {{ item.remarks }}
+                                                Remarks: {{ dtls.remarks }}
                                             </div>
                                         </div>
                                         <!-- {{ index }} -->
@@ -178,7 +195,7 @@ onMounted(() => {
                                                     Purpose
                                                 </div>
                                             </div>
-                                            <div v-for="doc in currentRequest" class="grid grid-cols-4 border-x-4 dark:border-slate-400">
+                                            <div v-for="doc in docRequest" class="grid grid-cols-4 border-x-4 dark:border-slate-400">
                                                 <div scope="col" class="px-3 py-3 text-center font-normal text-black dark:text-gray">
                                                     {{doc.name}}  
                                                 </div>

@@ -898,6 +898,9 @@ select {
 .mb-4 {
   margin-bottom: 1rem;
 }
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
 .mb-6 {
   margin-bottom: 1.5rem;
 }
@@ -1078,9 +1081,6 @@ select {
 }
 .w-8 {
   width: 2rem;
-}
-.w-80 {
-  width: 20rem;
 }
 .w-\[2px\] {
   width: 2px;
@@ -1349,12 +1349,19 @@ select {
 .border-t {
   border-top-width: 1px;
 }
+.border-t-2 {
+  border-top-width: 2px;
+}
 .border-none {
   border-style: none;
 }
 .border-black {
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+.border-gray-100 {
+  --tw-border-opacity: 1;
+  border-color: rgb(243 244 246 / var(--tw-border-opacity));
 }
 .border-gray-200 {
   --tw-border-opacity: 1;

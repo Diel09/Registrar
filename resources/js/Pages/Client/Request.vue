@@ -13,7 +13,7 @@ export default {
                 date: new Date().toISOString().substr(0, 10),
                 studno: this.details.student_number,
                 degree: this.details.degree,
-                name: this.details.firstname + ' ' + this.details.middlename[0] + '. ' + this.details.surname,
+                name:  this.details.surname + ' ' + this.details.firstname + '. ' + this.details.middlename[0],
                 contact: null,
                 purpose: null,
                 remarks: null,
@@ -71,26 +71,44 @@ export default {
             });
         },
         addDoc() {
-            if (this.selects.name && this.selects.copies) { //This will check if there is selected document
-                
-                const selectedDocument = this.docTypes.find(item => item.name === this.selects.name); // It will find the selected document in docTypes
+            if (this.selects.name && this.selects.copies && this.selects.purpose) {
+                const existingDocumentIndex = this.selectedDocuments.findIndex(
+                    doc =>
+                        doc.document === this.selects.name &&
+                        doc.purpose === this.selects.purpose
+                );
 
-                this.selectedDocuments.push({
-                    id: selectedDocument.id,
-                    document: this.selects.name,
-                    copies: this.selects.copies,
-                    price: selectedDocument.price * this.selects.copies,
-                    purpose: this.selects.purpose,
-                });
+                if (existingDocumentIndex !== -1) {
+                    // If the document with the same name and purpose exists, increment the copies
+                    this.selectedDocuments[existingDocumentIndex].copies += parseInt(
+                        this.selects.copies
+                    );
+                } else {
+                    const selectedDocument = this.docTypes.find(
+                        item => item.name === this.selects.name
+                    );
+
+                    this.selectedDocuments.push({
+                        id: selectedDocument.id,
+                        document: this.selects.name,
+                        copies: parseInt(this.selects.copies),
+                        price: selectedDocument.price * parseInt(this.selects.copies),
+                        purpose: this.selects.purpose
+                    });
+                }
+
                 this.selects.name = null;
                 this.selects.copies = null;
                 this.selects.purpose = null;
+            } else {
+                alert(
+                    'Please choose the document, the number of copies, and the purpose!'
+                );
             }
         },
-        removeSelectedDocument(index) {
-            this.selectedDocuments.splice(index, 1);
-        },
-        
+    removeSelectedDocument(index) {
+        this.selectedDocuments.splice(index, 1);
+    }, 
     },
     mounted() {
         this.input = this.$refs.input;
@@ -149,12 +167,12 @@ export default {
         </form>
         <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-0  ">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-                <tbody class="z-0 text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-white" :type="type" required placeholder=" " :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
+                <tbody class="z-0 text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-white border-b-2" :type="type" required placeholder=" " :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
                     <tr class="grid grid-cols-4 max-md:grid-cols-2">
                         <th scope=" " class="flex py-3" >
                             <div class="flex items-center ml-1">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                                <select id="documents" class="bg-gray-50 border border-gray-400 text-gray-900 text-sm rounded-lg block max-md:w-36 w-80 p-2.5 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.name" required>Choose
+                                <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white"></label>
+                                <select id="documents" class="bg-gray-50 flex border border-gray-400 text-gray-900 text-sm rounded-lg block max-md:w-36 w-full focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.name" required>Choose
                                     <option disabled select>Choose</option>
                                     <option v-for="doc in docTypes" :key="doc.id" :value="doc.name" >{{ doc.name }}</option>
                                 </select>
@@ -166,13 +184,13 @@ export default {
                             </div>
                         </th>
                         <th scope="" class=" font-semibold">
-                            <InputForm type="text" :label="'Purpose'" v-model="selects.purpose" class="w-full mt-3 max-md:w-full"/>
+                            <input maxlength="10" placeholder="Purpose(10 letters)" type="text" v-model="selects.purpose" class="mt-3 max-md:w-full block py-2.5 px-0 ml-2.5 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer w-full"/>
                         </th>
                         <th scope="" class="px-2 py-3 flex justify-end">
                             <button @click="addDoc" class="flex justify-center focus:outline-none max-md:w-11 text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="#" id="add_more_fields">Add</button>
                         </th>
                     </tr>
-                    <tr class="mt-5 grid grid-cols-4" >
+                    <tr class="mt-2 grid grid-cols-4 border-t-2 border-gray-100" >
                         <th scope="" class=" mt-5 text-left" >
                             <div class="ml-2 ">Document</div>
                         </th >
@@ -187,17 +205,17 @@ export default {
                         </th>
                         <th></th>
                     </tr>
-                    <tr v-for="(document, index) in selectedDocuments" :key="index" class="mt-5 grid grid-cols-4">
-                        <th scope="col" class="font-semibold text-left">
+                    <tr v-for="(document, index) in selectedDocuments" :key="index" class="flex items-center mt-2 grid grid-cols-4 border-t-2 border-gray-100">
+                        <td scope="col" class="font-semibold text-left">
                             <div>{{ document.document }}</div>
-                        </th>
-                        <th scope="col" class="font-semibold text-center">
+                        </td>
+                        <td scope="col" class="font-semibold text-center">
                             <div>{{ document.purpose }}</div>
-                        </th>
-                        <th scope="col" class="font-semibold text-center">
+                        </td>
+                        <td scope="col" class="font-semibold text-center">
                             <div class="">{{ document.copies }}</div>
-                        </th>
-                        <th scope="col" class="font-semibold text-center grid grid-cols-2">
+                        </td>
+                        <td scope="col" class="font-semibold text-center flex items-center grid grid-cols-2 ">
                             <div class="text-left">
                                 {{ document.price }}
                             </div>
@@ -208,7 +226,7 @@ export default {
                                     </svg>
                                 </button>
                             </div>
-                        </th>
+                        </td>
                     </tr>
                 </tbody>
             </table>
