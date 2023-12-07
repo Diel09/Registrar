@@ -7,7 +7,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ClientController;
-
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +33,10 @@ Route::get('/request-form', [ClientController::class, 'index'])->middleware(['au
 Route::get('/requests-form', function () {
     return Inertia::render('Client/Requests');
 })->middleware(['auth', 'verified'])->name('requests.form');
+
+Route::get('/payment-form', function () {
+    return Inertia::render('Client/ToBePaid');
+})->middleware(['auth', 'verified'])->name('payment.form');
 
 Route::get('/dashboards', function () {
     $name = Auth::guard('registrar')->user()->name;
@@ -93,7 +97,13 @@ Route::post('/deleteDocs',[DocumentController::class, 'deleteDocs']);
 Route::get('/getDocRequest', [RequestController::class, 'getAllRequest']);
 Route::get('/get-Request', [RequestController::class, 'getRequest']);
 Route::get('/get-Timestamp', [RequestController::class, 'getTimestamp']);
+Route::get('/get-Payment', [RequestController::class, 'getPayment']);
+
 
 Route::get('/filter/{filters}/{student}', [RequestController::class, 'filter'])->name('filter');
+Route::get('/request/search', [RequestController::class, 'search']);
+Route::get('/approve/search', [RequestController::class, 'approveSearch']);
 
+Route::get('/generate-barcode', [ProductController::class, 'index'])->name('generate.barcode');
+ 
 require __DIR__ . '/auth.php';

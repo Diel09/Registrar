@@ -1,34 +1,48 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import Search from '@/Components/Search.vue'
-import { onMounted, ref, watch, useAttrs} from 'vue';
+import { onMounted, ref, watch, useAttrs, computed } from 'vue';
 import axios from 'axios';
 import BarcodeGenerator from '@/Components/BarcodeGenerator.vue';
 import moment from 'moment';
 
 const request = ref([]);
-const filter = ref(6);
-const attrs = useAttrs();
 const rqst = ref([]);
 const docRequest = ref(null);
 const dtls = ref([]);
 const showModal = ref(false);
-// const barcodeValue = ref(''); 
+const barcodeValue = ref(''); 
 const noResults = ref(true);
 
 const formatDate = (dateString) => {
-  return moment(dateString).format('YYYY-MM-DD'); 
-};  //Getting the Date 
+  return moment(dateString).format('YYYY-MM-DD');
+};
 
 const getdocRequest = async () => {
   try {
-    //Fetching the data from getRequest
-    const response = await axios.get('/getRequest');
+    const response = await axios.get('/get-Payment');
     request.value = response.data.data;
     rqst.value = response.data.request;
   } catch (error) {
     console.error('Error fetching data:', error);
   }
+};
+
+const performSearch = (searchQuery) => {
+    axios.get('/approve/search', {
+        params: {
+            search: searchQuery,
+        },
+    })
+    .then(response => {
+        console.log(response.data);
+        request.value = response.data;
+
+        noResults.value = response.data.length === 0;
+    })
+    .catch(error => {
+        console.error('Error fetching request:', error);
+    });
 };
 
 const changeDocs = (i) => {
@@ -41,43 +55,10 @@ const changeDocs = (i) => {
     request.value.forEach((value, index) => {
         if(index == i) {
             dtls.value = value;
+            barcodeValue.value = value.reference_no;
         }
     });
 }
-
-watch(filter, (after, before) => {
-    if (after === '6') {
-        getdocRequest();
-    }
-    else{
-    axios.get(route('filter', {
-        filters: after,
-        student: attrs.auth.user.student_number
-    })).then((response) => {
-        request.value = response.data.details;
-        rqst.value = response.data.request
-    });
-    }
-})
-
-const performSearch = (searchQuery) => {
-    // Search
-    axios.get('/request/search', {
-        params: {
-            search: searchQuery,
-        },
-    })
-    
-    .then(response => {
-        console.log(response.data);
-        request.value = response.data;
-
-        noResults.value = response.data.length === 0;
-    })
-    .catch(error => {
-        console.error('Error fetching request:', error);
-    });
-};
 
 onMounted(() => {
     getdocRequest();
@@ -89,18 +70,9 @@ onMounted(() => {
         <template #header>
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <h2 class="text-xl font-semibold leading-tight">
-                    Requests
+                    To-Be-Paid
                 </h2>
                 <div class="flex justify-end items-center space-x-1">
-                    <div class="flex justify-end" >
-                        <select v-model="filter" id="Filter" class="w-32 h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="6">Filters</option>
-                            <option value="0">Pending</option>
-                            <option value="2">Rejected</option>
-                            <option value="3">Paid</option>
-                            <option value="5">Claimed</option>
-                        </select>
-                    </div>
                     <Search @search="performSearch"/>
                 </div>
             </div>
@@ -108,15 +80,12 @@ onMounted(() => {
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr class="grid grid-cols-5 max-md:grid-cols-3">
+                    <tr class="grid grid-cols-4 max-md:grid-cols-3">
                         <th scope="col" class="px-3 py-3 text-center">
                             Reference Number
                         </th>
                         <th scope="col" class="px-3 py-3 text-center max-md:hidden">
                             Total Amount
-                        </th>
-                        <th scope="col" class="px-3 py-3 text-center max-md:hidden">
-                            OR Number
                         </th>
                         <th scope="col" class="px-3 py-3 text-center">
                             Status
@@ -127,27 +96,25 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in request.filter(item => item.req_status !== 1)" :key="id" class="grid grid-cols-5 max-md:grid-cols-3 border-b-2 border-zinc-100 dark:border-gray-500">
+                    <tr v-for="(item, index) in request" :key="id" class="grid grid-cols-4 max-md:grid-cols-3 border-b-2 border-zinc-100 dark:border-gray-500">
                         <td scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white">
                             {{item.reference_no}}  
                         </td>
                         <td scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white max-md:hidden">
                             {{item.total_amount}}
                         </td>
-                        <td scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white max-md:hidden">
-                            {{item.OR_no}}
-                        </td>
-                        <td v-if="item.req_status == 0" scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white">
-                            Pending
-                        </td>
-                        <td v-if="item.req_status == 2" scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white">
-                            Rejected
-                        </td>
-                        <td v-if="item.req_status == 3" scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white">
-                            Paid
-                        </td>   
-                        <td v-if="item.req_status == 5" scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white">
-                            Claimed
+                        <td v-if="item.req_status == 1" scope="col" class="px-3 py-3 text-center font-sm text-black dark:text-white">
+                            Approved
+                            <div class="flex justify-center">
+                                <!-- <BarcodeGenerator
+                                    :value="barcodeValue"
+                                    :format="'CODE39'"
+                                    :lineColor="'black'"
+                                    :width="1"
+                                    :height="20"
+                                    :elementTag="'img'"
+                                    /> -->
+                            </div>
                         </td>
                         <td scope="col" class="px-3 py-3 flex justify-center">
                             <div class="flex items-center justify-center" >
@@ -164,7 +131,7 @@ onMounted(() => {
                     <div class="p-6 relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                Request Details
+                                Payment
                             </h3>
                             <button @click="showModal = false" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -230,6 +197,18 @@ onMounted(() => {
                                 <div scope="col" class="px-3 py-3 text-center font-normal text-black dark:text-white">
                                     {{doc.purpose}}
                                 </div>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="flex justify-center">
+                                <BarcodeGenerator
+                                    :value="barcodeValue"
+                                    :format="'CODE39'"
+                                    :lineColor="'black'"
+                                    :width="1"
+                                    :height="20"
+                                    :elementTag="'img'"
+                                    />
                             </div>
                         </div>
                     </div>
