@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Request_Details;
 use App\Models\DocumentRequest;
+use App\Models\DocumentType;
+use App\Models\AddDocument;
 use Carbon\Carbon;
 use Auth;
 
@@ -117,5 +119,170 @@ class RequestController extends Controller
 
         return response()->json($results);
     }
+
+
+    public function getRequestDetails(){
+        $request = [];
+        $data = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 0)->get();
+        foreach($data as $index=>$value) {
+            $request[$index] = DocumentRequest::where('req_id', $value->id)->join('doc_type', 'doc_request.doctype_id', 'doc_type.id')->get();
+        }
+        return response()->json([
+            'data' => $data, 
+            'request' => $request
+        ]);
+    }
+
+
+    public function getProcessing(){
+        $request = [];
+        $data = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 3)->get();
+        foreach($data as $index=>$value) {
+            $request[$index] = DocumentRequest::where('req_id', $value->id)->join('doc_type', 'doc_request.doctype_id', 'doc_type.id')->get();
+        }
+        return response()->json([
+            'data' => $data, 
+            'request' => $request
+        ]);
+    }
+
+    public function getReady(){
+        $request = [];
+        $data = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 4)->get();
+        foreach($data as $index=>$value) {
+            $request[$index] = DocumentRequest::where('req_id', $value->id)->join('doc_type', 'doc_request.doctype_id', 'doc_type.id')->get();
+        }
+        return response()->json([
+            'data' => $data, 
+            'request' => $request
+        ]);
+    }
+
+    public function getRequests(){
+        $request = [];
+        $data = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 1)->get();
+        foreach($data as $index=>$value) {
+            $request[$index] = DocumentRequest::where('req_id', $value->id)->join('doc_type', 'doc_request.doctype_id', 'doc_type.id')->get();
+        }
+        return response()->json([
+            'data' => $data, 
+            'request' => $request
+        ]);
+    }
+
+    public function updateStatus(Request $req){
+        $acc = Request_Details::find($req->id);
+        $acc->req_status = 1;
+        $acc->save();
+        return $acc;
+    }
+
+    public function rejectStatus(Request $req){
+        $acc = Request_Details::find($req->id);
+        $acc->req_status = 2;
+        $acc->save();
+        return $acc;
+    }
+
+    public function readyStatus(Request $req){
+        $acc = Request_Details::find($req->id);
+        $acc->req_status = 4;
+        $acc->save();
+        return $acc;
+    }
+
+    public function doneStatus(Request $req){
+        $acc = Request_Details::find($req->id);
+        $acc->req_status = 5;
+        $acc->save();
+        return $acc;
+    }
+
+    public function deleteRequest(Request $request){
+        $res= Request_Details::where('id', $request->id)->delete();
+    
+        return 1;
+       //  $list = $this->table();
+       //  return $list;
+    }
+
+    public function getItemRequestDetails(){
+            $requestDetails = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 0)->get();
+            $data = $requestDetails->count();
+            $request = $requestDetails->map(function ($item) {
+                return DocumentRequest::where('req_id', $item->id)->count();
+            });
+            return response()->json([
+                'data' => $data,
+                'request' => $request,
+            ]);
+        }
+
+    public function getItemProcessing(){
+        $requestDetails = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 3)->get();
+        $data = $requestDetails->count();
+        $request = $requestDetails->map(function ($item) {
+            return DocumentRequest::where('req_id', $item->id)->count();
+        });
+        return response()->json([
+            'data' => $data,
+            'request' => $request,
+        ]);
+    }
+
+    public function getItemCompleted(){
+        $requestDetails = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 4)->get();
+        $data = $requestDetails->count();
+        $request = $requestDetails->map(function ($item) {
+            return DocumentRequest::where('req_id', $item->id)->count();
+        });
+        return response()->json([
+            'data' => $data,
+            'request' => $request,
+        ]);
+    }
+
+    public function suggestions()
+    {
+        $documents = AddDocument::select('id', 'description')->get();
+        return response()->json($documents);
+    }
+    
+    public function fetchDoctypes(){
+        $pie = [];
+        $doc_request = DocumentRequest::select('doc_request.doctype_id')->get();
+        $doc_type = DocumentType::select('id', 'name')->get();
+        foreach($doc_type as $index => $docs) {
+            $count = 0;
+            foreach($doc_request as $request) {
+                if($docs['id'] == $request['doctype_id']){
+                    $pie[$index]['label'] = $docs['name'];
+                    $count++;
+                }
+            }
+            if($count != 0) {
+                $pie[$index]['number'] = $count;
+            }
+        }
+        return response()->json($pie); 
+    }
+    public function lineChart(){
+        $requestDetails = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 5)->paginate(1);
+        dd($requestDetails);
+        $data = $requestDetails->count();
+        $request = $requestDetails->map(function ($item) {
+            return DocumentRequest::where('req_id', $item->id)->count();
+        dd($request);
+        });
+        return response()->json([
+            'data' => $data,
+            'request' => $request,
+        ]);
+    }
 }
+
+
+
+
+
 

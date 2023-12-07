@@ -8,9 +8,9 @@ import axios from 'axios';
 
 // Create a variable to store the retrieved data
 const responseData = ref(null);
+const showModal = ref(false);
 // const document = ref(props.document);
 
-// Define a method to make a GET request
 const fetchData = async () => {
   try {
     const response = await axios.get('/getDocTypes'); // Replace with your actual endpoint
@@ -34,8 +34,7 @@ const deleteDocs = (id) => {
                 axios.post('/deleteDocs',{id}).then(({data})=>{
                     if(data){
                         alert('success');
-                        this.$emit('success');
-                        this.initialData();
+                        showModal.value = false;
                     }else{
                         alert('error');
                     }

@@ -45,12 +45,26 @@ Route::get('/dashboards', function () {
     ]);
 })->name('dashboards');
 
-Route::get('/registrar', function () {
+Route::get('/TobeAppove', function () {
     $name = Auth::guard('registrar')->user()->name;
     return Inertia::render('Registrar/TobeApprove', [
         "name" => $name
     ]);
-})->name('registrar');
+})->name('TobeApprove');
+
+Route::get('/Processing', function () {
+    $name = Auth::guard('registrar')->user()->name;
+    return Inertia::render('Registrar/Processing', [
+        "name" => $name
+    ]);
+})->name('Processing');
+
+Route::get('/Ready', function () {
+    $name = Auth::guard('registrar')->user()->name;
+    return Inertia::render('Registrar/Ready', [
+        "name" => $name
+    ]);
+})->name('Ready');
 
 Route::get('/documents', function () {
     return Inertia::render('Registrar/Documents');
@@ -99,6 +113,17 @@ Route::get('/get-Request', [RequestController::class, 'getRequest']);
 Route::get('/get-Timestamp', [RequestController::class, 'getTimestamp']);
 Route::get('/get-Payment', [RequestController::class, 'getPayment']);
 
+Route::post('/deleteRequest',[RequestController::class, 'deleteRequest']);
+
+Route::get('/get-RequestDetails', [RequestController::class, 'getRequestDetails']);
+Route::get('/get-Processing', [RequestController::class, 'getProcessing']);
+Route::get('/get-Ready', [RequestController::class, 'getReady']);
+Route::get('/get-Requests', [RequestController::class, 'getRequests']);
+
+Route::post('/updateStatus', [RequestController::class, 'updateStatus']);
+Route::post('/rejectStatus', [RequestController::class, 'rejectStatus']);
+Route::post('/readyStatus', [RequestController::class, 'readyStatus']);
+Route::post('/doneStatus', [RequestController::class, 'doneStatus']);
 
 Route::get('/filter/{filters}/{student}', [RequestController::class, 'filter'])->name('filter');
 Route::get('/request/search', [RequestController::class, 'search']);
@@ -106,4 +131,13 @@ Route::get('/approve/search', [RequestController::class, 'approveSearch']);
 
 Route::get('/generate-barcode', [ProductController::class, 'index'])->name('generate.barcode');
  
+Route::get('/getItemRequestDetails', [RequestController::class, 'getItemRequestDetails']);
+Route::get('/getItemProcessing', [RequestController::class, 'getItemProcessing']);
+Route::get('/getItemCompleted', [RequestController::class, 'getItemCompleted']);
+
+Route::get('/fetchDoctypes', [RequestController::class, 'fetchDoctypes']);
+Route::get('/line-Chart', [RequestController::class, 'lineChart']);
+
+
+Route::get('/document/suggestions', [RequestController::class, 'suggestions'])->name('document.suggestions');
 require __DIR__ . '/auth.php';

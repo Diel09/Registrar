@@ -23,13 +23,13 @@ class DocumentController extends Controller
         $request->save();
 
         // Process the text data as needed
-        return redirect()->route('Registrar.Document')->with('success', 'Data added successfully.');
+        return redirect()->route('document')->with('success', 'Data added successfully.');
     }
 
     public function getAllDocTypes(){
         $data = DocumentType::all();
-
         return response()->json($data);
+        
     }
     
 
