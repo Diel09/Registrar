@@ -194,7 +194,7 @@ class RequestController extends Controller
         $acc->notify((new RequestNotification($acc)));
 
         $acc->req_status = 4;
-        // $acc->save();
+        $acc->save();
         return 'success';
     }
 
