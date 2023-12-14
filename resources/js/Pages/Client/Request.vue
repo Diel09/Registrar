@@ -69,18 +69,17 @@ export default {
             }, 4000);
         },
         async saveData() {
-            if (this.selectedDocuments.length === 0) {
+            if (this.form.contact === null || this.form.contact.length < 11) {
+                this.toastr('error', 'Number must be 11 character!');
+            }
+            else if(this.form.remarks === null) {
+                this.toastr('error', 'Please fill up the remarks!');
+            }
+            else if (this.selectedDocuments.length === 0) {
                 this.toastr('error', 'Please add at least one document.');
             }
 
-            if (this.form.contact === null) {
-                this.toastr('error', 'Please input your number');
-            }
-
-            // Add more conditions and corresponding toastr messages if needed
-
-            if (this.selectedDocuments.length !== 0 && this.form.contact !== null) {
-                // Your logic for Axios call if no errors
+            else if (this.selectedDocuments.length !== 0 && this.form.contact !== null && this.form.remarks !== null) {
                 axios.post(route('data.submit'), {
                     details: this.form,
                     documents: this.selectedDocuments
@@ -88,20 +87,19 @@ export default {
                     console.log(this.showSuccessToastr);
                     if(response.data === 'success') {
                         this.toastr('success', 'Successfully Requested');
+                        this.selectedDocuments = [];
                     }
                 }).catch(error => {
-                    console.error(error); // Log the error if there is any
+                    console.error(error);
                 });
             }
         },
         removeToastr() {
             this.showSuccessToastr = false;
             this.showErrorToastr = false
-            },
-
+        },
         addDoc() {
             if (this.selects.name && this.selects.copies) { //This will check if the document, copies, and purpose filled are filled up
-
                 if (parseInt(this.selects.copies) > 0) { //The number of copies should be greater than 0
                     const existingDocumentIndex = this.selectedDocuments.findIndex(
                         doc =>
@@ -130,7 +128,6 @@ export default {
                             price: selectedDocument.price * parseInt(this.selects.copies),
                             purpose: this.selects.purpose,
                             docprice: selectedDocument.price
-
                         }); //Display a new Document
                     }
                     this.selects.name = null;
@@ -140,9 +137,13 @@ export default {
                 } else {
                     this.toastr('error', 'Number of copies must not zero');
                 }
-            } else {
-                this.toastr('error', 'Please choose document and also the copies.');
-            }
+            } else if(this.selects.name === null && this.selects.copies === null){
+                this.toastr('error', 'Add Document and number of copies');
+            } else if(this.selects.name === null){
+                this.toastr('error', 'Choose document.');
+            } else if(this.selects.copies === null){
+                this.toastr('error', 'Add the number of copies.');
+            } 
         },
     removeSelectedDocument(index) {
         this.selectedDocuments.splice(index, 1);
@@ -174,29 +175,29 @@ export default {
             <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mt-0 mb-4">
                 <div class="grid md:grid-cols-3 md:gap-6 dark:text-white-400">
                     <div class="mt-3">
-                        <InputForm :type="'date'" :label="'Date'" class="mt-1 block w-full" v-model="form.date" autocomplete="username" />
+                        <InputForm :type="'date'" :label="'Date'" class="mt-1 block w-full" v-model="form.date" autocomplete="username" required="'required'"/>
                     </div>
                 </div>
                 <div class="grid md:grid-cols-3 md:gap-6 ">
                     <div class="mt-3">
-                        <InputForm :type="textType" :label="'Student Number'" class="mt-1 block w-full" v-model="form.studno" autocomplete="username" />
+                        <InputForm :type="textType" :label="'Student Number'" class="mt-1 block w-full" v-model="form.studno" autocomplete="username" required="'required'"/>
                     </div>
                     <div class="mt-3">
-                        <InputForm :type="textType" :label="'Degree'" class="mt-1 block w-full" v-model="form.degree" autocomplete="username" />
+                        <InputForm :type="textType" :label="'Degree'" class="mt-1 block w-full" v-model="form.degree" autocomplete="username" required="'required'"/>
                     </div>
                     <div class="mt-3">
-                        <InputForm :type="textType" :label="'Name(Last, First, Middle)'" class="mt-1 block w-full" v-model="form.name" autocomplete="username" />
+                        <InputForm :type="textType" :label="'Name(Last, First, Middle)'" class="mt-1 block w-full" v-model="form.name" autocomplete="username" required="'required'"/>
                     </div>
                 </div>
                 <div class="grid md:grid-cols-3 md:gap-6">
                     <div class="mt-3">
-                        <InputForm :type="'email'" :label="'Email'" class="block w-full mt-1" v-model="form.email" autocomplete="username" />
+                        <InputForm :type="'email'" :label="'Email'" class="block w-full mt-1" v-model="form.email" autocomplete="username" required="'required'"/>
                     </div>
                     <div class="mt-3">
-                        <InputForm :type="textType" :label="'Contact Number'" class="block w-full mt-1" v-model="form.contact" autocomplete="username" />
+                        <InputForm :type="textType" :label="'Contact Number'" class="block w-full mt-1" v-model="form.contact" autocomplete="username" maxlength="11" required="'required'"/>
                     </div>
                     <div class="mt-3">
-                        <InputForm :type="textType" :label="'Remarks'" class="block w-full mt-1" v-model="form.remarks" autocomplete="" />
+                        <InputForm :type="textType" :label="'Remarks'" class="block w-full mt-1" v-model="form.remarks" autocomplete="username" required="'required'"/>
                     </div>
                 </div>
             </div>
@@ -208,7 +209,7 @@ export default {
                         <th scope=" " class="flex  py-3" >
                             <div class="flex justify-center items-center ml-1">
                                 <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white"></label>
-                                <select id="documents" class="bg-gray-50 flex h-10 border border-gray-400 text-gray-900 text-sm rounded-lg block  w-full focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.name" required>Choose
+                                <select id="documents" class="bg-gray-50 flex h-10 border border-gray-400 text-gray-900 text-sm rounded-lg block  w-full focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="selects.name">Choose
                                     <option disabled select>Choose</option>
                                     <option v-for="doc in docTypes" :key="doc.id" :value="doc.name" >{{ doc.name }}</option>
                                 </select>
@@ -220,7 +221,7 @@ export default {
                             </div>
                         </th>
                         <th scope="" class=" font-semibold">
-                            <input maxlength="10" placeholder="Purpose(max 10)" type="text" v-model="selects.purpose" class="mt-3 max-md:w-full block py-2.5 px-0 ml-2.5 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-green-600 peer w-full"/>
+                            <InputForm maxlength="10" :label="'Purpose'" :type="textType" v-model="selects.purpose" class="block w-full mt-2 font-normal"/>
                         </th>
                         <th scope="" class="px-2 py-3 flex justify-end">
                             <button @click="addDoc" class="flex justify-center focus:outline-none max-md:w-11 text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" href="#" id="add_more_fields">Add</button>
@@ -228,7 +229,7 @@ export default {
                     </tr>
                     <tr class="flex mt-2 grid grid-cols-5 max-md:grid-cols-4 border-t-2 mb-2 border-gray-100 dark:border-gray-600 " >
                         <td scope="" class=" mt-5 text-center font-semibold" >
-                            <div class="">Document</div>
+                            <div class="">Documents</div>
                         </td >
                         <td scope="" class="text-center mt-5 font-semibold">
                             <div>Copies</div>

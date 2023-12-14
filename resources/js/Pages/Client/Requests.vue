@@ -34,12 +34,12 @@ const getdocRequest = async () => {
 const changeDocs = (i) => {
     showModal.value = true;
     rqst.value.forEach((value, index) => {
-        if(index == i) {
+        if(value[0].req_id == i) {
             docRequest.value = value;
         }
     });
     request.value.forEach((value, index) => {
-        if(index == i) {
+        if(value.id == i) {
             dtls.value = value;
         }
     });
@@ -151,7 +151,7 @@ onMounted(() => {
                         </td>
                         <td scope="col" class="px-3 py-3 flex justify-center">
                             <div class="flex items-center justify-center" >
-                                <label @click="changeDocs(index)" class="flex justify-center focus:outline-none max-md:w-11 text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <label @click="changeDocs(item.id)" class="flex justify-center focus:outline-none max-md:w-11 text-white bg-mmsu-g hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     View
                                 </label> 
                             </div>                                          
@@ -227,7 +227,7 @@ onMounted(() => {
                                 <div scope="col" class="px-3 py-3 text-center font-normal text-black dark:text-white">
                                     {{doc.copies}}
                                 </div>
-                                <div scope="col" class="px-3 py-3 text-center font-normal text-black dark:text-white">
+                                <div scope="col" class="break-words px-3 py-3 text-center font-normal text-black dark:text-white">
                                     {{doc.purpose}}
                                 </div>
                             </div>

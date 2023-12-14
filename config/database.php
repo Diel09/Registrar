@@ -66,7 +66,7 @@ return [
         'dbiusis' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_second', '127.0.0.1'),
+            'host' => env('DB_HOST_second', '127.0.0.1'),   
             'port' => env('DB_PORT_second', '3306'),
             'database' => env('DB_DATABASE_second', 'forge'),
             'username' => env('DB_USERNAME_second', 'forge'),

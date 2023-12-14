@@ -15,7 +15,9 @@ import {
     isDark,
     scrolling,
     toggleDarkMode,
+    // toggleleftHand,
     sidebarState,
+    leftHand
 } from '@/Composables'
 import Button from '@/Components/Button.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
@@ -38,7 +40,7 @@ onUnmounted(() => {
     <nav
         aria-label="secondary"
         :class="[
-            'sticky top-0 z-10 px-6 py-4 bg-white flex items-center justify-between transition-transform duration-500 dark:bg-dark-eval-1',
+            'sticky top-0 z-10 px-6 py-4 bg-white flex items-center justify-end md:justify-between transition-transform duration-500 dark:bg-dark-eval-1',
             {
                 '-translate-y-full': scrolling.down,
                 'translate-y-0': scrolling.up,
@@ -46,10 +48,27 @@ onUnmounted(() => {
         ]"
     >
         <!-- Title -->
-        <div class="font-bold text-2xl">
+        <div v-show="sidebarState" class="font-bold md:text-2xl hidden md:block">
             Online Document Request System
         </div>
-        <div class="flex items-center gap-2">
+        <div class="items-center gap-2 inline-flex">
+            <Button
+                iconOnly
+                variant="secondary"
+                type="button"
+                @click="leftHand = !leftHand"
+                v-slot="{ iconSizeClasses }"
+                class="md:hidden"
+                srText="Toggle dark mode"
+            >
+                <svg v-show="leftHand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
+
+                <svg v-show="!leftHand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                </svg>
+            </Button>
             <Button
                 iconOnly
                 variant="secondary"
@@ -151,7 +170,7 @@ onUnmounted(() => {
                         :href="route('logout')"
                         method="post"
                         as="button"
-                    >
+                    > 
                         Log Out
                     </DropdownLink>
                     
@@ -174,13 +193,25 @@ onUnmounted(() => {
             iconOnly
             variant="secondary"
             type="button"
+            v-show="!leftHand"
+            @click="sidebarState.isOpen = !sidebarState.isOpen"
             v-slot="{ iconSizeClasses }"
+            class="md:hidden"
             srText="Search"
-        >
-            
+        >   
+            <MenuIcon
+                v-show="!sidebarState.isOpen"
+                aria-hidden="true"
+                :class="iconSizeClasses"
+            />
+            <XIcon
+                v-show="sidebarState.isOpen"
+                aria-hidden="true"
+                :class="iconSizeClasses"
+            />
         </Button>
-
-        <Link :href="route('request-form')">
+        
+        <Link :href="route('request-form')" class="flex justify-center">
             <ApplicationLogo class="w-10 h-10" />
             <span class="sr-only">K UI</span>
         </Link>
@@ -189,11 +220,12 @@ onUnmounted(() => {
             iconOnly
             variant="secondary"
             type="button"
+            v-show="leftHand"
             @click="sidebarState.isOpen = !sidebarState.isOpen"
             v-slot="{ iconSizeClasses }"
             class="md:hidden"
             srText="Search"
-        >
+        >   
             <MenuIcon
                 v-show="!sidebarState.isOpen"
                 aria-hidden="true"

@@ -14,20 +14,6 @@ import { TemplateIcon } from '@heroicons/vue/outline'
         aria-label="main"
         class="relative flex flex-col flex-1 max-h-full gap-4 px-3"
     >
-        <!-- <SidebarLink
-            title="Dashboard"
-            :href="route('dashboard')"
-            :active="route().current('dashboard')"
-        >
-            <template #icon>
-                <DashboardIcon
-                    class="flex-shrink-0 w-6 h-6"
-                    aria-hidden="true"
-                />
-            </template>
-        </SidebarLink>> -->
-
-        
         <SidebarLink
             title="Request Form"
             :href="route('request-form')"
@@ -63,56 +49,7 @@ import { TemplateIcon } from '@heroicons/vue/outline'
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                 </svg>
-
             </template>
         </SidebarLink>
-
-
-        <!-- <SidebarCollapsible
-            title="Components"
-            :active="route().current('components.*')"
-        >
-            <template #icon>
-                <TemplateIcon
-                    class="flex-shrink-0 w-6 h-6"
-                    aria-hidden="true"
-                />
-            </template>
-
-            <SidebarCollapsibleItem
-                :href="route('components.buttons')"
-                title="Buttons"
-                :active="route().current('components.buttons')"
-            />
-        </SidebarCollapsible> -->
-
-        <!-- Examples -->
-        <!--
-        => External link example
-        <SidebarLink
-            title="Github"
-            href="https://github.com/kamona-wd/kui-laravel-breeze"
-            external
-            target="_blank"
-        >
-        </SidebarLink>
-
-        => Collapsible examples
-        <SidebarCollapsible title="Users" :active="$page.url.startsWith('/users')">
-            <SidebarCollapsibleItem :href="route('users.index')" title="List" :active="$page.url === '/users/index'" />
-            <SidebarCollapsibleItem :href="route('users.create')" title="Create" :active="$page.url === '/users/create'" />
-        </SidebarCollapsible>
-
-        <SidebarCollapsible title="Users" :active="usePage().url.value.startsWith('/users')">
-            <template #icon>
-                <UserIcon
-                    class="flex-shrink-0 w-6 h-6"
-                    aria-hidden="true"
-                />
-            </template>
-
-            <SidebarCollapsibleItem :href="route('users.index')" title="List" :active="route().current('users.index')" />
-            <SidebarCollapsibleItem :href="route('users.create')" title="Create" :active="route().current('users.create')" />
-        </SidebarCollapsible>-->
     </PerfectScrollbar>
 </template>

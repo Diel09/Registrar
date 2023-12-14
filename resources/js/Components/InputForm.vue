@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 
-defineProps(['modelValue', 'label', 'type']);
+defineProps(['modelValue', 'label', 'type', "maxlength", "required"]);
 
 defineEmits(['update:modelValue']);
 
@@ -22,9 +22,10 @@ onMounted(() => {
             id="input"
             :type="type"
             class="block py-2.5 px-0 ml-2.5 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-green-600 peer w-full"
-            required
+            :required="required"
             placeholder=" "
             :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input"
+            :maxlength="maxlength"
             />
         <label  
             for="input"

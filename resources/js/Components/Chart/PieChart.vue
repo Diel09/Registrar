@@ -21,7 +21,7 @@ export default {
     return {
       label: [],
       num: [],
-      arr: [],
+      arr: [1, 2, 3],
       componentKey: 0,
       chartData: {
         labels: [],
@@ -51,6 +51,7 @@ export default {
           this.label.push(value.label);
           this.num.push(value.number);
         });
+
         this.chartData.labels = this.label;
         this.chartData.datasets[0].data = this.num;
         this.componentKey += 1;
