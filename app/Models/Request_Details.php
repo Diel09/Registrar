@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Request_Details extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = "request_details";
     
@@ -25,4 +26,9 @@ class Request_Details extends Model
         'OR_no',
         'remarks',
     ];
+
+    public function routeNotificationForMail($notification)
+    {
+        return $this->email;
+    }
 }

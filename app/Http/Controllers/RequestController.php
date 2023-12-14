@@ -7,8 +7,12 @@ use App\Models\Request_Details;
 use App\Models\DocumentRequest;
 use App\Models\DocumentType;
 use App\Models\AddDocument;
+use App\Models\Client;
 use Carbon\Carbon;
 use Auth;
+use stdClass;
+
+use App\Notifications\RequestNotification;
 
 class RequestController extends Controller
 {
@@ -186,9 +190,12 @@ class RequestController extends Controller
 
     public function readyStatus(Request $req){
         $acc = Request_Details::find($req->id);
+        
+        $acc->notify((new RequestNotification($acc)));
+
         $acc->req_status = 4;
-        $acc->save();
-        return $acc;
+        // $acc->save();
+        return 'success';
     }
 
     public function doneStatus(Request $req){
@@ -267,18 +274,51 @@ class RequestController extends Controller
         return response()->json($pie); 
     }
     public function lineChart(){
-        $requestDetails = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 5)->paginate(1);
-        dd($requestDetails);
-        $data = $requestDetails->count();
-        $request = $requestDetails->map(function ($item) {
-            return DocumentRequest::where('req_id', $item->id)->count();
-        dd($request);
-        });
+        $requestDetails = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)->where('req_status', 4)->get();
+        $month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $request = [];
+        foreach($month as $key => $value) {
+            $count = Request_Details::where('college', Auth::guard('registrar')->user()->college_id)
+                ->where('req_status', 4)
+                ->whereMonth('completed_at', $value)->count();
+            array_push($request, $count);
+        }
         return response()->json([
-            'data' => $data,
             'request' => $request,
         ]);
     }
+    public function pendingSearch(Request $request){
+        //Search data using reference number with the req_status equal to 1
+        $term = $request->get('search');
+
+        $results = Request_Details::where('req_status', 0)
+                        ->where('reference_no', 'LIKE', '%' . $term . '%')
+                        ->get();
+
+        return response()->json($results);
+    }
+    public function completedSearch(Request $request){
+        //Search data using reference number with the req_status equal to 1
+        $term = $request->get('search');
+
+        $results = Request_Details::where('req_status', 4)
+                        ->where('reference_no', 'LIKE', '%' . $term . '%')
+                        ->get();
+
+        return response()->json($results);
+    }
+    public function processSearch(Request $request){
+        //Search data using reference number with the req_status equal to 1
+        $term = $request->get('search');
+
+        $results = Request_Details::where('req_status', 3)
+                        ->where('reference_no', 'LIKE', '%' . $term . '%')
+                        ->get();
+
+        return response()->json($results);
+    }
+
+
 }
 
 

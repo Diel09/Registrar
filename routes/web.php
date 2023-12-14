@@ -128,6 +128,9 @@ Route::post('/doneStatus', [RequestController::class, 'doneStatus']);
 Route::get('/filter/{filters}/{student}', [RequestController::class, 'filter'])->name('filter');
 Route::get('/request/search', [RequestController::class, 'search']);
 Route::get('/approve/search', [RequestController::class, 'approveSearch']);
+Route::get('/pending/search', [RequestController::class, 'pendingSearch']);
+Route::get('/completed/search', [RequestController::class, 'completedSearch']);
+Route::get('/process/search', [RequestController::class, 'processSearch']);
 
 Route::get('/generate-barcode', [ProductController::class, 'index'])->name('generate.barcode');
  
@@ -140,4 +143,5 @@ Route::get('/line-Chart', [RequestController::class, 'lineChart']);
 
 
 Route::get('/document/suggestions', [RequestController::class, 'suggestions'])->name('document.suggestions');
+Route::post('/document/edit', [DocumentController::class, 'docEdit'])->name('document.edit');
 require __DIR__ . '/auth.php';

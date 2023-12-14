@@ -3,7 +3,7 @@
     id="my-chart-id"
     :options="chartOptions"
     :data="chartData"
-    :key="componentKey"
+    :key="lineKey"
   />
 </template>
 
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       chartData: {
-        labels: ['2023'],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep' , 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
             label: 'Completed',
@@ -38,7 +38,8 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
-      }
+      },
+      lineKey: 0
     }
   },
   mounted() {
@@ -49,8 +50,8 @@ export default {
       try {
         const response = await axios.get('/line-Chart');
         console.log('Fetched data:', response.data);
-        this.chartData.datasets[0].data = response.data.data;
-        this.componentKey += 1;
+        this.chartData.datasets[0].data = response.data.request;
+        this.lineKey += 1;
       } catch (error) {
         console.error('Error fetching data from the database:', error);
       }

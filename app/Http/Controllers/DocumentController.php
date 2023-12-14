@@ -34,11 +34,21 @@ class DocumentController extends Controller
     
 
     public function deleteDocs(Request $request){
+        // dd($request->all());
         $res= DocumentType::where('id', $request->id)->delete();
 
         return 1;
        //  $list = $this->table();
        //  return $list;
+   }
+
+   public function docEdit(Request $request) {
+        $doc = DocumentType::find($request->id);
+        $doc->name = $request->name;
+        $doc->price = $request->price;
+        $doc->update();
+
+        return true;
    }
 
     

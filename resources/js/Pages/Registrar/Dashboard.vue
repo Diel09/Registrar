@@ -1,7 +1,7 @@
 <script setup>
 import Registrar from '@/Layouts/Registrar.vue'
 import PieChart from '@/Components/Chart/PieChart.vue'
-import BarChart from '@/Components/Chart/LineChart.vue'
+import LineChart from '@/Components/Chart/LineChart.vue'
 import SidebarLink from '@/Components/Sidebar/SidebarLink.vue'
 
 defineProps({
@@ -116,12 +116,14 @@ onMounted(() => {
             </div>
         </template>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 dark:text-white">
-            <div class="p-6 mb-2 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-                <PieChart/>
-            </div>
-            <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 mb-2 md:ml-0.5">
-                <BarChart/>
+        <div class="dark:text-white flex justify-center ">
+            <div class="grid grid-cols-1 lg:grid-cols-2 p-6 mb-2 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 w-full">
+                <div>
+                    <PieChart/>
+                </div>
+                <div>
+                    <LineChart/>
+                </div>
             </div>
         </div>
     </Registrar>

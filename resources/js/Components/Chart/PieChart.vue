@@ -45,8 +45,8 @@ export default {
     async fetchDataFromDatabase() {
       try {
         const response = await axios.get('/fetchDoctypes');
-        this.arr = response.data;
-        //agloop ta dtuy
+        this.arr = Object.values(response.data);
+
         this.arr.forEach((value, index) => {
           this.label.push(value.label);
           this.num.push(value.number);
